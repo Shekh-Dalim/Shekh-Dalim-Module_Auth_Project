@@ -11,6 +11,7 @@
 
 spring:
   application:
+
     name: dalim_project_backend
   profiles:
     active: dev

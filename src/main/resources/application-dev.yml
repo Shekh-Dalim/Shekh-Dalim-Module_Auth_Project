@@ -2,3 +2,30 @@
 
 server:
   port: 8083
+
+#  Database Connection
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth_app_yt
+    username: postgres
+    password: Ruhul@2002
+
+#    hikari:
+#      pool-name: HikariCP              # Connection pool name
+#      maximum-pool-size: 5             # Maximum 5 DB connections
+#      connection-timeout: 10000        # Wait 10 sec for connection
+#      idle-timeout: 600000             # Remove idle connection after 10 min
+#      max-lifetime: 1800000            # Maximum connection lifetime: 30 min
+#      validation-timeout: 1800000      # Timeout for connection validation
+#      leak-detection-threshold: 0      # Disable connection leak detection
+#      initialization-fail-timeout: -1  # Don't fail startup if DB is unavailable
+
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect   # Modern Hibernate/Spring Boot automatically detects the database dialect from the JDBC connection, so we usually don't need to specify it manually.
+          format_sql: true
+      show-sql: true  # means Spring Boot will display the SQL queries executed by Hibernate in the console.
