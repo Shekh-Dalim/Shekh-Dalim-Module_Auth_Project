@@ -1,0 +1,32 @@
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/auth_app_yt
+#    username: postgres
+#    password: Ruhul@2002
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+
+
+spring:
+  application:
+    name: dalim_project_backend
+  profiles:
+    active: dev
+
+
+
+server:
+  port: 8082
+
+
+# configurations
+#database configurations
+
+#mysql configurations
+
+
+#email configurations
+
+#auth2 configurations
