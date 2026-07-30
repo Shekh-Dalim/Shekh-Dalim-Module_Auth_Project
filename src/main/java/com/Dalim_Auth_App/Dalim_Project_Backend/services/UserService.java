@@ -8,13 +8,14 @@ public interface UserService {
     UserDto createUser(UserDto userDto);
 
     // TODO Create User by email
-    UserDto createUserByEmail(String email);
+    UserDto getUserByEmail(String email);
 
     // TODO update User by id
     UserDto updateUser(UserDto userDto,String userId );
 
     // TODO delete User
-    UserDto deleteUserById(String userId);
+    void deleteUser(String userId);
+
 
     // TODO get User by id
     UserDto getUserById(String userId );
