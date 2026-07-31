@@ -16,7 +16,6 @@ public interface UserService {
     // TODO delete User
     void deleteUser(String userId);
 
-
     // TODO get User by id
     UserDto getUserById(String userId );
 

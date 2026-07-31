@@ -1,4 +1,4 @@
-package com.Dalim_Auth_App.Dalim_Project_Backend.services;
+package com.Dalim_Auth_App.Dalim_Project_Backend.services.impl;
 
 import com.Dalim_Auth_App.Dalim_Project_Backend.dtos.UserDto;
 import com.Dalim_Auth_App.Dalim_Project_Backend.entities.Provider;
@@ -6,6 +6,7 @@ import com.Dalim_Auth_App.Dalim_Project_Backend.entities.User;
 import com.Dalim_Auth_App.Dalim_Project_Backend.exceptions.ResourceNotFoundException;
 import com.Dalim_Auth_App.Dalim_Project_Backend.helpers.UserHelper;
 import com.Dalim_Auth_App.Dalim_Project_Backend.repositories.UserRepository;
+import com.Dalim_Auth_App.Dalim_Project_Backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
