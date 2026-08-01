@@ -29,3 +29,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect  # Modern Hibernate/Spring Boot automatically detects the database dialect from the JDBC connection, so we usually don't need to specify it manually.
         format_sql: true
     show-sql: true  # means Spring Boot will display the SQL queries executed by Hibernate in the console.
+
+
+# this line written to visual the error of the code in console
+logging:
+  level:
+    org.springframework.security: DEBUG
