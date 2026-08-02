@@ -1,5 +1,7 @@
-package com.Dalim_Auth_App.Dalim_Project_Backend.configuration;
 
+// TODO                              Rule Book (Security-এর নিয়ম বলে)
+
+package com.Dalim_Auth_App.Dalim_Project_Backend.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,22 +34,24 @@ public class SecurityConfig {
 
     }
 
-    // TODO We create this method so Spring can create and manage one PasswordEncoder object and provide it wherever it is needed.
-    //TODO Default encoded password ehi use karegaa security
+    // TODO Creates a PasswordEncoder bean so Spring Security can hash passwords before saving them and verify them during login.
     @Bean
-    public PasswordEncoder passwordEncoder() {  // TODO PasswordEncoder is used to hash (encode) passwords before saving them to the database and to verify passwords during login.
-        return new BCryptPasswordEncoder();  // TODO BCryptPasswordEncoder is used to hash (encode) passwords and verify them securely during login.
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
-//    @Bean // TODO @Bean is used to tell Spring to create, manage, and store an object in the Spring Container (ApplicationContext).
-//    // TODO This method is not overriding UserDetailsService. It is creating a UserDetailsService bean.
+
+    // TODO In-Memory Authentication means: The username and password are stored in the application's memory (RAM), not in a database. This method is not overriding UserDetailsService. It is creating a UserDetailsService bean.
+//    @Bean
 //    public UserDetailsService users(){
 //
 //        User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
 //
 //        UserDetails user1 = userBuilder.username("Dalim").password("abc").roles("ADMIN").build(); // TODO Create a UserDetails object with username "ankit", password "abc", and role "ADMIN".
-//        UserDetails user2 = userBuilder.username("Ruhul").password("xyz").roles("ADMIN").build(); // TODO Create a UserDetails object with username "ankit", password "abc", and role "ADMIN".
-//        UserDetails user3 = userBuilder.username("Rahul").password("xyz").roles("USER").build(); // TODO Create a UserDetails object with username "ankit", password "abc", and role "ADMIN".
+//        UserDetails user2 = userBuilder.username("Ruhul").password("xyz").roles("ADMIN").build();
+//        UserDetails user3 = userBuilder.username("Rahul").password("xyz").roles("USER").build();
 //        return new InMemoryUserDetailsManager(user1,user2,user3);  // TODO InMemoryUserDetailsManager is used to store and manage user details in memory (RAM) instead of a database.
 //    }
+
+
 }
