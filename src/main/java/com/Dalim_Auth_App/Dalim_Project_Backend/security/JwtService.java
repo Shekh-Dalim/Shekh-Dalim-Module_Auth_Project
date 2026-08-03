@@ -1,7 +1,7 @@
 //TODO                          application.yml
 //TODO                             │
 //TODO                             ▼
-//TODO                             Constructor (Tank ভরল)
+//TODO                             Constructor (Tank ভরল data gulo application.yml theke nie )
 //TODO                             │
 //TODO                             ▼
 //TODO                             JwtService Fields
@@ -106,11 +106,7 @@ public class JwtService {
 
     // TODO parse the token User sends a Token, and I open it to check whether it is valid and to read the information stored inside it.
     public Jws<Claims> parse(String token) {
-        try {
-            return Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
-        } catch (JwtException e) {
-            throw e;
-        }
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
     }
 
     public boolean isAccessToken(String token) {
@@ -132,4 +128,13 @@ public class JwtService {
         return parse(token).getPayload().getId();
     }
 
+    public List<String> getRoles(String token) {
+        Claims c = parse(token).getPayload();
+        return (List<String>) c.get("roles");
+    }
+
+    public String getEmail(String token) {
+        Claims c = parse(token).getPayload();
+        return (String) c.get("email");
+    }
 }
