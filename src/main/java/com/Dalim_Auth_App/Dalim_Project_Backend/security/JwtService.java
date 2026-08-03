@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
+// TODO This is a Service class. I need to create one object of JwtService."
 public class JwtService {
 
     private final SecretKey key;
@@ -23,6 +24,7 @@ public class JwtService {
     private final long refreshTtlSeconds;
     private final String issuer;
 
+    // TODO Constructor , "Go to application.yml and bring me these values."
     public JwtService(
             @Value("${security.jwt.secret}") String secrect,
             @Value("${security.jwt.access-ttl-seconds}") long accessTtlSeconds,
@@ -32,14 +34,14 @@ public class JwtService {
         if (secrect == null || secrect.length() < 64) {
             throw new IllegalArgumentException("Invalid secret");
         }
-
-        this.key = Keys.hmacShaKeyFor(secrect.getBytes(StandardCharsets.UTF_8));
+        // TODO Stores values in fields
+        this.key = Keys.hmacShaKeyFor(secrect.getBytes(StandardCharsets.UTF_8)); // TODO "Convert the Secret String into a SecretKey object."
         this.accessTtlSeconds = accessTtlSeconds;
         this.refreshTtlSeconds = refreshTtlSeconds;
         this.issuer = issuer;
     }
 
-    // TODO generate access token :    An Access Token is a short-lived token that proves the user is logged in and is allowed to access protected APIs.
+    // TODO generate access token :  User logs in, and I create an Access Token so they can access protected APIs for a limited time.
     public String generateAccessToken(User user) {
 
         Instant now = Instant.now();
@@ -62,7 +64,7 @@ public class JwtService {
                 .compact();
     }
 
-    // TODO generate refresh token    A Refresh Token is a long-lived token used only to get a new Access Token when the old one expires.
+    // TODO generate refresh token    User logs in, and I create a Refresh Token so they can get a new Access Token after the old one expires.
     public String generateRefreshToken(User user, String jti) {
 
         Instant now = Instant.now();
@@ -78,8 +80,7 @@ public class JwtService {
                 .compact();
     }
 
-    // TODO parse the token // Parsing means reading data, interpreting its structure, and converting it into a usable format.
-
+    // TODO parse the token User sends a Token, and I open it to check whether it is valid and to read the information stored inside it.
     public Jws<Claims> parse(String token) {
         try {
             return Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
