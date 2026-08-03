@@ -1,5 +1,29 @@
-package com.Dalim_Auth_App.Dalim_Project_Backend.security;
+//TODO                          application.yml
+//TODO                             │
+//TODO                             ▼
+//TODO                             Constructor (Tank ভরল)
+//TODO                             │
+//TODO                             ▼
+//TODO                             JwtService Fields
+//TODO                             ┌─────────────────────┐
+//TODO                             │ key                 │
+//TODO                             │ accessTtlSeconds    │
+//TODO                             │ refreshTtlSeconds   │
+//TODO                             │ issuer              │
+//TODO                             └─────────────────────┘
+//TODO                             │
+//TODO                             ├────────► generateAccessToken()
+//TODO                             │
+//TODO                             ├────────► generateRefreshToken()
+//TODO                             │
+//TODO                             └────────► parse()
 
+
+// TODO The constructor gets the Secret, TTL, and Issuer from application.yml and saves them in the JwtService object. Then, generateAccessToken(), generateRefreshToken(), and parse() use these saved values whenever they are called.
+
+
+
+package com.Dalim_Auth_App.Dalim_Project_Backend.security;
 import com.Dalim_Auth_App.Dalim_Project_Backend.entities.Role;
 import com.Dalim_Auth_App.Dalim_Project_Backend.entities.User;
 import io.jsonwebtoken.*;
