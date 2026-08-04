@@ -5,6 +5,7 @@ import com.Dalim_Auth_App.Dalim_Project_Backend.entities.User;
 import com.Dalim_Auth_App.Dalim_Project_Backend.exceptions.ResourceNotFoundException;
 import com.Dalim_Auth_App.Dalim_Project_Backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        return userRepository.findByEmail(username).orElseThrow(() -> new ResourceNotFoundException("Invalid Email or Password !!"));
+        return userRepository.findByEmail(username).orElseThrow(() -> new BadCredentialsException("Invalid Email or Password !!"));
 
     }
 }

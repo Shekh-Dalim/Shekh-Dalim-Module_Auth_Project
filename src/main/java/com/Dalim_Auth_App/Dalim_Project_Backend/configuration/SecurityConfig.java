@@ -3,11 +3,13 @@
 
 package com.Dalim_Auth_App.Dalim_Project_Backend.configuration;
 
+import com.Dalim_Auth_App.Dalim_Project_Backend.dtos.ApiError;
 import com.Dalim_Auth_App.Dalim_Project_Backend.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -46,16 +48,22 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, e) -> {
                     // TODO Error message niche Bala code tab challenge jab ap ka koi esa person jo  unauthenticated hai and oo api access Carne ka try kar raha hai
-                    e.printStackTrace();
+//                    e.printStackTrace();
                     response.setStatus(401);
                     response.setContentType("application/json");
                     String message = e.getMessage();
-                    Map<String, String> errorMap = Map.of("message", message, "statusCode", Integer.toString(401));
-                    var objectMapper = new ObjectMapper();
-                    response.getWriter().write(objectMapper.writeValueAsString(errorMap));
+                    String error = (String) request.getAttribute("error");
+                    if (error != null) {
+                        message = error;
+                    }
+
+
+//                    Map<String, Object> errorMap = Map.of("message", message, "statusCode", 401);
+                    var apiError = ApiError.of(HttpStatus.UNAUTHORIZED.value(), "Unauthorized Access", message, request.getRequestURI(), true);
+                    var objectMapper = new ObjectMapper(); // TODO Let the compiler automatically determine the variable's type
+                    response.getWriter().write(objectMapper.writeValueAsString(apiError));
                 }))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
 
 
         return http.build();
@@ -67,8 +75,9 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration){
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) {
         return configuration.getAuthenticationManager();
 
     }
