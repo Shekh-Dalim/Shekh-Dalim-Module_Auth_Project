@@ -48,3 +48,5 @@ security:
      cookie-secure: ${JWT_COOKIE_SECURE:true}                           #TODO Send this cookie only over HTTPS.
      cookie-http-only: ${JWT_COOKIE_HTTP_ONLY:true}                     #TODO Do not allow JavaScript to read this cookie.
      cookie-same-site: ${JWT_COOKIE_SAME_SITE:lax}                      #TODO TODO Do not send this cookie with suspicious cross-site requests.
+     cookie-domain: ${JWT_COOKIE_DOMAIN:localhost}
+

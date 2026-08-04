@@ -7,8 +7,10 @@ import com.Dalim_Auth_App.Dalim_Project_Backend.entities.RefreshToken;
 import com.Dalim_Auth_App.Dalim_Project_Backend.entities.User;
 import com.Dalim_Auth_App.Dalim_Project_Backend.repositories.RefreshTokenRepository;
 import com.Dalim_Auth_App.Dalim_Project_Backend.repositories.UserRepository;
+import com.Dalim_Auth_App.Dalim_Project_Backend.security.CookieService;
 import com.Dalim_Auth_App.Dalim_Project_Backend.security.JwtService;
 import com.Dalim_Auth_App.Dalim_Project_Backend.services.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -39,11 +41,12 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final ModelMapper mapper;
+    private final CookieService cookieService;
 
 
     // TODO Login method means create the token
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
 
         // authenticate
         Authentication authentication = authenticate(loginRequest);
@@ -65,11 +68,13 @@ public class AuthController {
         refreshTokenRepository.save(refreshTokenOb);
 
 
-
         // access token -- generate token If enable then generate jwt
         String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user, refreshTokenOb.getJti());
 
-        String refreshToken  = jwtService.generateRefreshToken(user,refreshTokenOb.getJti());
+        //TODO Use cookie service to attach refresh token in cookie
+        cookieService.attachRefreshCookie(response,refreshToken,(int) jwtService.getRefreshTtlSeconds());
+        cookieService.addNoStoreHeaders(response);
 
         TokenResponse tokenResponse = TokenResponse.of(accessToken, refreshToken, jwtService.getAccessTtlSeconds(), mapper.map(user, UserDto.class));
         return ResponseEntity.ok(tokenResponse);
