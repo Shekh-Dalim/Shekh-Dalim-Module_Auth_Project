@@ -3,7 +3,9 @@ package com.Dalim_Auth_App.Dalim_Project_Backend.controllers;
 import com.Dalim_Auth_App.Dalim_Project_Backend.dtos.LoginRequest;
 import com.Dalim_Auth_App.Dalim_Project_Backend.dtos.TokenResponse;
 import com.Dalim_Auth_App.Dalim_Project_Backend.dtos.UserDto;
+import com.Dalim_Auth_App.Dalim_Project_Backend.entities.RefreshToken;
 import com.Dalim_Auth_App.Dalim_Project_Backend.entities.User;
+import com.Dalim_Auth_App.Dalim_Project_Backend.repositories.RefreshTokenRepository;
 import com.Dalim_Auth_App.Dalim_Project_Backend.repositories.UserRepository;
 import com.Dalim_Auth_App.Dalim_Project_Backend.security.JwtService;
 import com.Dalim_Auth_App.Dalim_Project_Backend.services.AuthService;
@@ -21,12 +23,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @AllArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
+    private final RefreshTokenRepository refreshTokenRepository;
+
+
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final JwtService jwtService;
@@ -43,9 +51,27 @@ public class AuthController {
         if (!user.isEnable()) { // if disable
             throw new DisabledException("User is disable");
         }
-        // If enable then generate jwt
+
+        String jti = UUID.randomUUID().toString();
+        var refreshTokenOb = RefreshToken.builder()
+                .jti(jti)
+                .user(user)
+                .createdAt(Instant.now())
+                .expiresAt(Instant.now().plusSeconds(jwtService.getRefreshTtlSeconds()))
+                .revoked(false)
+                .build();
+
+        //save the information of the refresh token
+        refreshTokenRepository.save(refreshTokenOb);
+
+
+
+        // access token -- generate token If enable then generate jwt
         String accessToken = jwtService.generateAccessToken(user);
-        TokenResponse tokenResponse = TokenResponse.of(accessToken, "", jwtService.getAccessTtlSeconds(), mapper.map(user, UserDto.class));
+
+        String refreshToken  = jwtService.generateRefreshToken(user,refreshTokenOb.getJti());
+
+        TokenResponse tokenResponse = TokenResponse.of(accessToken, refreshToken, jwtService.getAccessTtlSeconds(), mapper.map(user, UserDto.class));
         return ResponseEntity.ok(tokenResponse);
 
     }
