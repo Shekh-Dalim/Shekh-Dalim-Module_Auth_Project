@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");  // TODO Extract the JWT token from the incoming HTTP request.
         logger.info("Authorization header : {}", header);
 
-        if (header == null && header.startsWith("Bearer")) {   // TODO agar valid data aa raha hai tab to yee chaliga
+        if (header != null && header.startsWith("Bearer")) {   // TODO agar valid data aa raha hai tab to yee chaliga
 
             // TODO Extract and validate the JWT token, create an Authentication object, and set it in the SecurityContext.
             String token = header.substring(7);  // Start extracting the string from index 7.(Bearer 23525252)
@@ -99,5 +99,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
 
 
+    }
+
+    @Override
+    // TODO It checks whether the filter should run or be skipped
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return request.getRequestURI().startsWith("/api/v1/auth/");
     }
 }
