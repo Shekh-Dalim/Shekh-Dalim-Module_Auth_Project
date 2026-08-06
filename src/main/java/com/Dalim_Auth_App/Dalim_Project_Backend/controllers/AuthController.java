@@ -99,9 +99,6 @@ public class AuthController {
     }
 
 
-//    ###############
-
-
     // TODO access and refresh token renule karne ke lie api banaii
 
 
@@ -245,8 +242,6 @@ public class AuthController {
 
     }
 
-
-//    ###############
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {  // TODO @RequestBody is used to take data from the HTTP request body (usually JSON) and convert it into a Java object.
