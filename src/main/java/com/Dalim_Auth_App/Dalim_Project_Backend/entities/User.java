@@ -13,18 +13,15 @@ import java.util.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-// TODO Lombok annotation used to create objects easily using the Builder Pattern, especially when a class has many fields.
+@Builder // TODO Lombok annotation used to create objects easily using the Builder Pattern, especially when a class has many fields.
 @Entity()
-// TODO Tells JPA that this class is an entity and can be mapped to a database table. (says WHAT should be mapped.)
-@Table(name = "users")
-// TODO Tells JPA which database table will store the entity's data.. (says WHERE it should be mapped.)
+@Table(name = "users") // TODO tells JPA which database table will store the User entity’s data, but it does not specify which database the data will be stored in.
 public class User implements UserDetails {  // TODO This UserDetails comes from Spring Security, not from your project.
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
-    private UUID id;
+    private UUID id;  //TODO UUID is a Java class/type used to store a unique ID.
 
     @Column(name = "user_email", unique = true, length = 300)
     private String email;
@@ -33,10 +30,10 @@ public class User implements UserDetails {  // TODO This UserDetails comes from 
     private String name;
     private String password;
     private String image;
-    private boolean enable = true;    // TODO Controls account status: true = active, false = disabled
+    private boolean enable = true;    // TODO Checks whether the user account is enabled before allowing login. true  → User account is active → Login allowed false → User account is disabled → Login not allowed
 
-    // TODO thi two are automatically handle by jpa and hibernate
-    private Instant createdAt = Instant.now();  // TODO Stores the exact date and time when the user account is created.
+    // TODO this two are automatically handle by jpa and hibernate
+    private Instant createdAt = Instant.now();  // TODO Instant is a class that Stores the exact date and time when the user account is created.
     private Instant updateAt = Instant.now();   // TODO Stores the date and time when the user information was last updated.
 
     @Enumerated(EnumType.STRING)  // TODO tells JPA/Hibernate how to store an enum value in the database.
@@ -69,7 +66,6 @@ public class User implements UserDetails {  // TODO This UserDetails comes from 
 
 
     // TODO Over ride the all UserDetails interface method
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {   // TODO getAuthorities() returns the collection of authorities (such as ROLE_ADMIN or ROLE_USER) granted to the authenticated user.
 

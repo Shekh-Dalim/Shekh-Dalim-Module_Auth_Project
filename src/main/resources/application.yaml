@@ -25,7 +25,7 @@ server:
 # configurations
 #database configurations
 
-#mysql configurations
+#PostgreSql configurations
 
 
 #email configurations

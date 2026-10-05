@@ -18,7 +18,7 @@ import java.util.UUID;
 public class Role {
 
     @Id
-    private UUID id = UUID.randomUUID();  // TODO means create a unique ID automatically whenever a new User object is created.
+    private UUID id = UUID.randomUUID();  // TODO Automatically generates a unique ID when a new Role object is created.
 
     @Column(unique = true, nullable = false )
     private String name; // TODO what is the roll USER , ADMIN , GUEST
